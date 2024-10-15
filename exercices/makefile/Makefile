@@ -1,10 +1,11 @@
 CC = arm-none-eabi-gcc
 CFLAGS = -Wall -Werror -g -Og -mthumb -MMD -MP
 LDLIBS = -lm
-LDFLAGS = -L/opt/mylibs -specs=nosys.specs -mthumb
+LDFLAGS = -L/opt/mylibs -mthumb
 # LDFLAGS = -L/opt/mylibs -specs=nano.specs -specs=nosys.specs -mthumb
 
 SOURCES = main.c t1.c t2.c
+# SOURCES = main.c t1.c t2.c syscalls.c
 STUBS = libs/stubs.c
 OBJS = $(SOURCES:.c=.o)
 STUBS_OBJ = $(STUBS:.c=.o)
