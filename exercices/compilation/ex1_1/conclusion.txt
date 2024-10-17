@@ -1,0 +1,2 @@
+Conclusion:
+Pour la variable de type uint8_t, il nous faut une opération de "and" pour confirmer que sa valeur est dans l'interval de 0 à 255, car uint8_t (8 bits) signifie que le registre ne pourra stocker que des valeurs de 0 à 255 avant d’avoir besoin d’être géré comme un overflow. Cepandant, dans le cas où i est un unsigned int(32 bits), le registre peut stoker une plage beaucoup plus grande de valuers.
