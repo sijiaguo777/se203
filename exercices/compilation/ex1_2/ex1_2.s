@@ -7,7 +7,7 @@
 	.eabi_attribute 24, 1
 	.eabi_attribute 25, 1
 	.eabi_attribute 26, 1
-	.eabi_attribute 30, 4
+	.eabi_attribute 30, 2
 	.eabi_attribute 34, 0
 	.eabi_attribute 18, 4
 	.file	"ex1_2.c"
@@ -22,20 +22,20 @@ f:
 	@ Naked Function: prologue and epilogue provided by programmer.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r3, .L2
-	ldm	r3, {r0, r1}
-	ldr	ip, [r1]
-	ldr	r2, [r0]
-	add	r2, r2, ip
-	str	r2, [r0]
-	ldr	r2, [r3, #8]
-	ldr	r1, [r1]
-	ldr	r3, [r2]
-	add	r3, r3, r1
-	str	r3, [r2]
-.L3:
+	ldr	r2, .L3
+	ldm	r2, {r0, r1} @load a and c address
+	ldr	ip, [r1] @load c to ip
+	ldr	r3, [r0] @load a to r3
+	add	r3, r3, ip @ add c and a 
+	ldr	r2, [r2, #8] @ load address of b
+	str	r3, [r0] @ store sum of a and c to address of a
+	ldr	r3, [r2] @ load b to r3
+	ldr	r1, [r1] @ load c to r1
+	add	r3, r3, r1 @ add b and c 
+	str	r3, [r2] @store sum of b and c to address of b
+.L4:
 	.align	2
-.L2:
+.L3:
 	.word	.LANCHOR0
 	.size	f, .-f
 	.global	c

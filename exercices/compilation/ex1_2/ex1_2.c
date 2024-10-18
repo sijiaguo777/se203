@@ -1,6 +1,5 @@
-// Global variables
 #include <stdint.h>
-
+// Global variables
 uint32_t *a;
 uint32_t *b;
 uint32_t *c;

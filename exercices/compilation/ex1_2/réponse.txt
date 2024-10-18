@@ -1,0 +1,3 @@
+Pourquoi GCC charge-t-il deux fois le contenu de *c au lieu d'une seule ?
+
+C'est pour mieux garantir la cohérence de mémoire. Dans certain circonstances, d'autres partie du programme pourraient modifier la valeur de *c entre les deux instruction, notamment en environnement multithread.
