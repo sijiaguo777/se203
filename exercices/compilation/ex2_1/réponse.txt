@@ -1,0 +1,24 @@
+Quel ordre?
+
+Pile (address d'une variable locale)
+Tas (address d'une variable allouée sur le tas)
+.bss (ad d'une variable globale non initialisée)
+.data (ad d'une variable globale initialisée)
+.rodata (ad d'une variable constante)
+.text (ad du code)
+
+
+Dans quel sens croît la pile?
+La pile croît d'address grande vers l'address petite.
+
+Dans l’exemple fourni, on peut observer que l’adresse des variables locales diminue à chaque appel récursif de la fonction fibonacci :
+Adresse d'une variable allouée sur le tas : 0x121605ea0
+Adresse de la variable locale i pour n = 5: 0x16aee319c
+Adresse de la variable locale i pour n = 4: 0x16aee315c
+Adresse de la variable locale i pour n = 3: 0x16aee311c
+Adresse de la variable locale i pour n = 2: 0x16aee30dc
+Adresse de la variable locale i pour n = 1: 0x16aee309c
+Adresse de la variable locale i pour n = 0: 0x16aee309c
+
+
+
