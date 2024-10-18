@@ -61,7 +61,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
 ```
 
-Il y a aussi deux fois de Hello world.
+Il y a aussi deux fois de Hello world. Une est stockée dans la section .rodata.str1.4 et l'autre dans .rodata. **str1.4** indique une organisation ou un format optimisé pour les chaînes de caractères (**str**) avec une certaine structure d’alignement (souvent 4 octets, d’où le **.4.**
 
 ```
 Contents of section .rodata.str1.4:
@@ -72,11 +72,11 @@ Contents of section .rodata:
  0000 48656c6c 6f20576f 726c6421 0a00      Hello World!.. 
 ```
 
-
-
 -O2
 
 Avec l’optimisation **-O2**, le compilateur essaie de maximiser l’efficacité du code généré. La séparation du code de démarrage dans **.text.startup** permet de minimiser la taille du segment principal **.text**, optimisant ainsi le code qui sera fréquemment exécuté, tout en isolant le code qui ne sera exécuté qu’une seule fois au lancement.
+
+La section **.text.startup** est utilisée pour isoler le code de démarrage, car une fois que ce code est exécuté, il n’est plus nécessaire pour le reste de l’exécution du programme.
 
 ```
 Sections:
@@ -98,10 +98,6 @@ Idx Name          Size      VMA       LMA       File off  Algn
   7 .ARM.attributes 0000002a  00000000  00000000  00000128  20
                   CONTENTS, READONLY
 ```
-
-
-
-
 
 Pourquoi il y a deux fois la même chaine?
 
@@ -173,6 +169,10 @@ int main() {
     8274:	000120a4 	.word	0x000120a4
 ```
 
+Le compilateur a utilisé la fonction `<puts>`  pour optimiser la fonction printf. 
+
+
+
 
 Analyse de taille des sections:
 
@@ -200,7 +200,22 @@ Pour O0: Le niveau -O0 n’applique aucune optimisation, donc le code qu'il a g�
 .ARM.attributes 0000002a
 ```
 
+```
+-O1:
+.text         0000006c  # Code plus optimisé mais encore non séparé
+.data         00000004
+.bss          00000005
+.rodata.str1.4 00000030
+.rodata       0000000e
 
+-O2:
+.text         00000000  # Code de démarrage déplacé dans .text.startup
+.text.startup 0000006c
+.data         00000004
+.bss          00000005
+.rodata.str1.4 00000030
+.rodata       0000000e
+```
 
 const -> static const
 

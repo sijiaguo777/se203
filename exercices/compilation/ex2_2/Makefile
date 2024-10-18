@@ -1,8 +1,9 @@
 CC = arm-none-eabi-gcc
+OBJDUMP= arm-none-eabi-objdump
+
 CFLAGS = -Wall -Werror -g -Og -mthumb -MMD -MP
 LDLIBS = -lm
 LDFLAGS = -L/opt/mylibs -mthumb
-# LDFLAGS = -L/opt/mylibs -specs=nano.specs -specs=nosys.specs -mthumb
 
 SOURCES = ex2_2_1.c ex2_2_2.c ex2_2_3_1.c ex2_2_3_2.c stubs.c
 OBJS = $(SOURCES:.c=.o)
@@ -15,20 +16,20 @@ O2: $(addprefix Question_O2/, $(SOURCES:.c=_O2.o))
 Os: $(addprefix Question_Os/, $(SOURCES:.c=_Os.o))
 
 Question_O0/%_O0.o: %.c | Question_O0
-	$(CC) -O0 $(TARGET_ARCH) -c -o $@ $^
-	$(CC) -O0 $(TARGET_ARCH) -S -o Question_O0/$*_O0.s $<
+	$(CC) -O0 -c -o $@ $^
+	$(OBJDUMP) -S $@ > Question_O0/$*_O0.objdump.s
 
 Question_O1/%_O1.o: %.c | Question_O1
-	$(CC) -O1 $(TARGET_ARCH) -c -o $@ $^
-	$(CC) -O1 $(TARGET_ARCH) -S -o Question_O1/$*_O1.s $<
+	$(CC) -O1 -c -o $@ $^
+	$(OBJDUMP) -S $@ > Question_O1/$*_O1.objdump.s
 
 Question_O2/%_O2.o: %.c | Question_O2
-	$(CC) -O2 $(TARGET_ARCH) -c -o $@ $^
-	$(CC) -O2 $(TARGET_ARCH) -S -o Question_O2/$*_O2.s $<
+	$(CC) -O2 -c -o $@ $^
+	$(OBJDUMP) -S $@ > Question_O2/$*_O2.objdump.s
 
 Question_Os/%_Os.o: %.c | Question_Os
-	$(CC) -Os $(TARGET_ARCH) -c -o $@ $^
-	$(CC) -Os $(TARGET_ARCH) -S -o Question_Os/$*_Os.s $<
+	$(CC) -Os -c -o $@ $^
+	$(OBJDUMP) -S $@ > Question_Os/$*_Os.objdump.s
 
 Question_O0 Question_O1 Question_O2 Question_Os:
 	mkdir -p $@
