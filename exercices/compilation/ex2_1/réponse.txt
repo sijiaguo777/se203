@@ -1,11 +1,11 @@
 Quel ordre?
 
-Pile (address d'une variable locale)
-Tas (address d'une variable allouée sur le tas)
-.bss (ad d'une variable globale non initialisée)
-.data (ad d'une variable globale initialisée)
-.rodata (ad d'une variable constante)
-.text (ad du code)
+Pile (address d'une variable locale 0x16aee31cc)
+Tas (address d'une variable allouée sur le tas 0x121605ea0)
+.bss (ad d'une variable globale non initialisée 0x104f2400c)
+.data (ad d'une variable globale initialisée 0x104f24008)
+.rodata (ad d'une variable constante 0x104f1fe34)
+.text (ad du code 0x104f1fc1c)
 
 
 Dans quel sens croît la pile?
