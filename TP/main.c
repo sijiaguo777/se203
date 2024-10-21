@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 // should be in .bss
 int uninitialized_var;
 
