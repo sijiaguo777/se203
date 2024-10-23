@@ -1,20 +1,24 @@
-// should be in .bss
-int uninitialized_var;
-
-// should be in .data
-int initialized_var = 42;
-
-// should be in .rodata
-const int constant_var = 100;
-
-// should be in .text
-void test_function(void) {
-    printf("Initialized variable: %d\n", initialized_var);
-    printf("Uninitialized variable: %d\n", uninitialized_var);
-    printf("Constant variable: %d\n", constant_var);
+int infini(){
+    int i = 1;
+    while (1)
+    {
+    }
+    return 0;
 }
 
+int fibo(int n){
+    if (n == 0) {
+        return 0;
+    } else if (n == 1) {
+        return 1;
+    } else {
+        return fibo(n - 1) + fibo(n - 2);
+    }
+}
+
+int global_var1;
+int global_var2;
+
 int main(void) {
-    test_function();
-    return 0;
+    fibo(5);
 }

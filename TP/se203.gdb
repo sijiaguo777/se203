@@ -6,7 +6,8 @@ mon halt
 # interface with asm, regs and cmd windows
 define split
   layout split
-  layout asm
+  layout src
+  # layout asm
   layout regs
   focus cmd
 end

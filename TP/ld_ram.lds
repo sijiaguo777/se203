@@ -20,13 +20,12 @@ SECTIONS
     /* .text store executable codes */
     .text : 
     {
-        _start = .;
         *(.text)        /* all .text content */
         *(.text.*)      /* match the section starting with .text. */
     } > sram1
 
     /* .rodata store read only sections(constants) */
-    .rodata : 
+    .rodata :
     {
         *(.rodata)      /* all .rodata sections */
         *(.rodata.*)    /* match sections starting with .rodata. */
@@ -42,7 +41,7 @@ SECTIONS
         _data_end = .;
     } > sram1
 
-    .bss (NOLOAD) : 
+    .bss(NOLOAD): 
     {
         __bss_start__ = .;
         *(.bss)         /* all .bss sections */

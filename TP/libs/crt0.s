@@ -1,8 +1,11 @@
     .syntax unified
     .global _start
+    .global _exit
+    .thumb
 
 _start:
-    ldr sp, =_estack          // Initialize stack pointer
-    bl main                   // Call main function
-    b .                       // Infinite loop to prevent exit
+    ldr sp, =_estack 
+    bl init_bss
+    bl main
+    b _exit                   
 
