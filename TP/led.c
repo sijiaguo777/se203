@@ -1,6 +1,5 @@
 # define GPIOB_MODER (*(volatile unsigned int *)0x48000400)
 
-
 #include "led.h"
 
 void led_init(void){
