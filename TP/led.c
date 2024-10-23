@@ -10,14 +10,13 @@ void led_init(void){
 
 }
 
-// Fonction pour allumer la LED2 (connectée à PB14)
 void led_g_on(void) {
-    // Régler PB14 à 1 (niveau haut) pour allumer la LED
-    GPIOB_BSRR = (1 << 14);  // Mettre le bit 14 à 1 dans le registre BSRR
+    // mettre PB14 à 1 (niveau haut) pour allumer la LED
+    GPIOB_BSRR = (1 << 14);  // mettre le bit 14 à 1 dans BSRR
 }
 
-// Fonction pour éteindre la LED2 (connectée à PB14)
+
 void led_g_off(void) {
-    // Réinitialiser PB14 à 0 (niveau bas) pour éteindre la LED
-    GPIOB_BSRR = (1 << (14 + 16));  // Mettre le bit 14 à 1 dans la partie haute du registre BSRR pour réinitialiser
+    // réinitialiser PB14 à 0 pour éteindre la LED
+    GPIOB_BSRR = (1 << (14 + 16));  // mettre le bit 14 à 1 dans la partie haute du registre BSRR (pour réinitialiser)
 }
