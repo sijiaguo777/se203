@@ -1,10 +1,12 @@
-#include "stm32l4xx.h"  // 适用于 STM32L4 系列的头文件
+# define GPIOB_MODER (*(volatile unsigned int *)0x48000400)
+
+
 #include "led.h"
 
 void led_init(void){
 
-    GPIOB->MODER |= GPIO_MODER_MODER0_0;
-    GPIOB->OTYPER &= ~GPIO_OTYPER_OT_0;
-    GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR0;
-    GPIOB->PUPDR &= ~GPIO_PUPDR_PUPDR0;
+    GPIOB_MODER |= (1 << 1);
+    GPIOB_MODER &= ~(3 << 28);  // effacer les bits 28 et 29
+    GPIOB_MODER |= (1 << 28);   // activer la sortie sur le port PB14
+
 }
