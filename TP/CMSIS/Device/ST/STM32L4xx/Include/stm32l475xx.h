@@ -189,7 +189,6 @@ typedef enum
 /**
   * @brief Analog to Digital Converter
   */
-typedef unsigned int uint32_t;
 
 typedef struct
 {
