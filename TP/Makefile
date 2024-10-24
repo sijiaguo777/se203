@@ -6,8 +6,8 @@ LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LIBS_DIR = libs
 
-# SOURCES = main.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
-SOURCES = $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c led.c
+SOURCES = main.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
+# SOURCES = $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c led.c
 LIBS_SRCS_C = $(LIBS_DIR)/stubs.c 
 LIBS_SRCS_S = $(LIBS_DIR)/crt0.s
 
