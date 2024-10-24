@@ -8,6 +8,7 @@
 #define GPIOC_MODER (*(volatile unsigned int *)0x48000800) // Registre de mode pour le port GPIOC
 #define GPIOB_BSRR (*(volatile unsigned int *)0x48000418) // Registre de réinitialisation et de réglage pour le port GPIOB
 #define GPIOC_BSRR (*(volatile unsigned int *)0x48000818) // Registre de réinitialisation et de réglage pour le port GPIOC
+#endif // LED_H
 
 void led_init(void);  // initialiser LED
 void led_g_on(void);  // allumer LED2
@@ -23,7 +24,7 @@ enum state
     LED_GREEN
 };
 
-#endif // LED_H
+
 
 void led_init(void)
 {
