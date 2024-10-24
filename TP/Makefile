@@ -1,12 +1,13 @@
 CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as
 
-CFLAGS = -g -O2 -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS = -g -O1 -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LIBS_DIR = libs
 
-SOURCES = main.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
+# SOURCES = main.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
+SOURCES = $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c led.c
 LIBS_SRCS_C = $(LIBS_DIR)/stubs.c 
 LIBS_SRCS_S = $(LIBS_DIR)/crt0.s
 
@@ -15,7 +16,7 @@ LIBS_OBJS += $(LIBS_SRCS_S:.s=.o)
 
 OBJS = $(SOURCES:.c=.o)
 
-TARGET = main
+TARGET = led
 
 all: $(TARGET)
 

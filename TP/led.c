@@ -3,26 +3,18 @@
 int main(void)
 {
     led_init();
-    while (1)
-    {
-        // allumer la LED
-        led_g_on();
+    // for (int i = 0; i < 1000; i++)
+    // {
+    //     led(LED_GREEN);
+    //     asm volatile("nop");
+    //     led(LED_GREEN_OFF);
+    // }
+    // led(LED_GREEN_OFF);
+    led(LED_BLUE);
+    led(LED_YELLOW);
+    led(LED_GREEN);
 
-        // attente active avec une boucle de retard
-        for (int i = 0; i < 1000000; i++)
-        {
-            asm volatile("nop"); // instruction 'nop' pour implémenter des délais)
-        }
-
-        // éteindre la LED
-        led_g_off();
-
-        // attente active avec une boucle de retard
-        for (int i = 0; i < 1000000; i++)
-        {
-            asm volatile("nop");
-        }
-    }
-
+    led(LED_BLUE_YELLOW_OFF);
+    led(LED_GREEN_OFF);
     return 0;
 }

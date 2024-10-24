@@ -8,14 +8,14 @@ void *memcpy(void *dest, const void *src, unsigned int n)
     return dest;
 }
 
-void memset(void *ptr, int value, unsigned int num)
+void *memset(void *ptr, int value, unsigned int num)
 {
     volatile unsigned char *p = (unsigned char *)ptr;
     for (unsigned int i = 0; i < num; i++)
     {
         p[i] = (unsigned char)value;
     }
-    return p;
+    return ptr;
 }
 
 void *memmove(void *dest, const void *src, unsigned int n)
