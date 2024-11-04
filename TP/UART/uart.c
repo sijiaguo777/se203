@@ -1,14 +1,12 @@
 #define STM32L475xx
+#include "stm32l475xx.h"
 #include "stm32l4xx.h"
 #include "clocks.h"
 #include <stddef.h>
 
-
-
 // UART Ports:
 // ===================================================
 // PB.6 = USART1_TX (AF7)  |  PB.7 = USART1_RX (AF7)
-
 
 void uart_init()
 {
@@ -23,7 +21,6 @@ void uart_init()
     GPIOB->MODER = (GPIOB->MODER & ~GPIO_MODER_MODE7_Msk) | (0b10 << GPIO_MODER_MODE7_Pos);
     GPIOB->AFR[0] = (GPIOB->AFR[0] & ~GPIO_AFRL_AFSEL7_Msk) | (0b0111 << GPIO_AFRL_AFSEL7_Pos);
 
-
     // activer l'horloge de l'USART1
     RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 
@@ -35,11 +32,10 @@ void uart_init()
     RCC->APB2RSTR = (RCC->APB2RSTR & ~RCC_APB2RSTR_USART1RST);
 
     // Desactiver USART1
-    USART1->CR1 &= ~USART_CR1_UE;  
-    
-    // configurer la vitesse du port série à 115200 bauds
-    USART1->BRR = 80000000/115200; 
+    USART1->CR1 &= ~USART_CR1_UE;
 
+    // configurer la vitesse du port série à 115200 bauds
+    USART1->BRR = 80000000 / 115200;
 
     // activer le port série
     USART1->CR1 |= USART_CR1_UE;
@@ -52,8 +48,8 @@ void led_init()
 {
 
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
-    GPIOB->MODER &= ~GPIO_MODER_MODE14_1;  
-    GPIOB->MODER |= GPIO_MODER_MODE14_0;   
+    GPIOB->MODER &= ~GPIO_MODER_MODE14_1;
+    GPIOB->MODER |= GPIO_MODER_MODE14_0;
 }
 
 void led_on()
@@ -66,7 +62,6 @@ void led_off()
     GPIOB->ODR &= ~GPIO_ODR_OD14;
 }
 
-
 void uart_putchar(uint8_t c)
 {
     // attend que l'USART1 soit prêt à transmettre quelque chose
@@ -76,12 +71,11 @@ void uart_putchar(uint8_t c)
 }
 
 
-uint8_t uart_getchar() {
-    if (USART1->ISR & USART_ISR_ORE) {
-        (void) USART1->RDR; 
-    }
+uint8_t uart_getchar()
+{
     while (!(USART1->ISR & USART_ISR_RXNE));
-    return (uint8_t) (USART1->RDR & USART_RDR_RDR);
+    uint8_t byte = (uint8_t)(USART1->RDR & USART_RDR_RDR);
+    return byte;
 }
 
 
@@ -99,6 +93,7 @@ void uart_puts(const char *s)
     uart_putchar('\n');
 }
 
+
 void uart_gets(char *s, size_t size)
 {
     size_t i = 0;
@@ -111,6 +106,16 @@ void uart_gets(char *s, size_t size)
     }
 
     s[i] = '\0';
+}
+
+
+uint32_t calculate_checksum(uint32_t num_bytes) {
+    uint32_t sum = 0;
+    for (uint32_t i = 0; i < num_bytes; i++) {
+        uint8_t byte = uart_getchar();
+        sum += byte;                   
+    }
+    return sum;
 }
 
 
@@ -127,23 +132,24 @@ int main()
     // char buffer[100];
     // while (1)
     // {
-    //     uart_gets(buffer, sizeof(buffer) - 1); 
+    //     uart_gets(buffer, sizeof(buffer) - 1);
     //     uart_puts("Vous avez tapé: ");
-    //     uart_puts(buffer); 
+    //     uart_puts(buffer);
     // }
 
-    
-    while (1) {
-        uint32_t sum = 0;
-        sum = 0;
-        for (int i = 0; i < 10; i++)
-        {
-            sum += uart_getchar();
-        }
-        uart_putchar((sum >> 24) & 0xFF);
-        uart_putchar((sum >> 16) & 0xFF);
-        uart_putchar((sum >> 8) & 0xFF);
-        uart_putchar(sum & 0xFF);
+    // programme de checksum
+    uart_puts("Checksum 32: \n");
+    while (1)
+    {
+        uint32_t checksum = calculate_checksum(1000);
+
+        uart_putchar((checksum >> 24) & 0xFF);
+        uart_putchar((checksum >> 16) & 0xFF);
+        uart_putchar((checksum >> 8) & 0xFF);
+        uart_putchar(checksum & 0xFF);
+        
+        uart_putchar('\r');
+        uart_putchar('\n');
     }
 
     return 0;

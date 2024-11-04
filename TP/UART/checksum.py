@@ -5,7 +5,7 @@ import sys, os
 import serial
 import numpy as np
 import argparse
-
+import time
 description = """
 Generate some random bytes and send them to the USB serial port.
 Then display the sum (on 32 bits in hexadecimal) of the bytes sent.
@@ -14,9 +14,9 @@ Then display the sum (on 32 bits in hexadecimal) of the bytes sent.
 def main():
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-p", "--port",
-                        help="Set the USB port to use for serial communication. Default to /dev/ttyACM0.",
+                        help="Set the USB port to use for serial communication. Defaults to /dev/tty.usbmodem0007793538251",
                         type=str,
-                        default="/dev/ttyACM0")
+                        default="/dev/tty.usbmodem0007793538251")
     parser.add_argument("-s", "--speed",
                         help="Set serial port speed. Defaults to 115200.",
                         type=int,
@@ -52,12 +52,14 @@ def main():
     for i in range(args.num):
         ser.write(bytes((array[i],)))
         if args.verbosity:
-            print("Sent 0x%x"%array[i])
+            print("Sent 0x%x" % (array[i]))
+        time.sleep(0.001) # 1ms
     # Close serial port
     ser.close()
 
     # Print sum
-    print("Sum of bytes sent on UART=0x%x"%sum)
+    print("Sum of bytes sent on UART (hex) = 0x%x" % sum)
+    print("Sum of bytes sent on UART (uint32) = %s" % np.uint32(sum))
 
 if __name__== "__main__":
     main()
