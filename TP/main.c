@@ -1,24 +1,20 @@
-int infini(){
-    int i = 1;
-    while (1)
-    {
-    }
+#define STM32L475xx
+#include "stm32l475xx.h"
+#include "clocks.h"
+#include "matrix.h"
+#include <stddef.h>
+#include <stdint.h>
+
+// UART Ports:
+// ===================================================
+// PB.6 = USART1_TX (AF7)  |  PB.7 = USART1_RX (AF7)
+
+
+
+int main()
+{
+    matrix_init();
+    test_pixels();
+
     return 0;
-}
-
-int fibo(int n){
-    if (n == 0) {
-        return 0;
-    } else if (n == 1) {
-        return 1;
-    } else {
-        return fibo(n - 1) + fibo(n - 2);
-    }
-}
-
-int global_var1;
-int global_var2;
-
-int main(void) {
-    fibo(5);
 }

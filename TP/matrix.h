@@ -1,9 +1,10 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include "stm32l4xx.h"
+#include "stm32l475xx.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 // Macros pour les broches du DM163
 #define RST(x)  (x ? (GPIOC->BSRR = GPIO_BSRR_BS3) : (GPIOC->BSRR = GPIO_BSRR_BR3))
@@ -42,5 +43,6 @@ void mat_set_row(int row, const rgb_color *val);
 void activate_row(int row);
 void deactivate_rows();
 void init_bank0();
+void test_pixels();
 
 #endif

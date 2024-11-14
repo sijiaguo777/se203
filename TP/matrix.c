@@ -1,5 +1,5 @@
 #include "matrix.h"
-#include "stm32l4xx.h"
+#include "stm32l475xx.h"
 
 void pause(int time)
 {
@@ -226,47 +226,4 @@ void test_pixels()
         pause(10000000); // Pause pour une courte durée 1ms
         deactivate_rows();
     }
-}
-
-void test_row_7()
-{
-
-    rgb_color row7[8];
-
-    for (int col = 0; col < 8; col++)
-    {
-        row7[col].r = 255; // 红色最大亮度
-        row7[col].g = 0;   // 绿色关闭
-        row7[col].b = 0;   // 蓝色关闭
-    }
-
-    mat_set_row(7, row7);
-    pause(10000000); // Pause pour une courte durée 1ms
-    deactivate_rows();
-}
-
-void test_row_6()
-{
-    rgb_color row6[8];
-
-    for (int col = 0; col < 8; col++)
-    {
-        row6[col].r = 255; // 红色最大亮度
-        row6[col].g = 0;   // 绿色关闭
-        row6[col].b = 0;   // 蓝色关闭
-    }
-
-
-    mat_set_row(6, row6);
-    pause(10000000); // Pause pour une courte durée 1ms
-    deactivate_rows();
-}
-
-int main()
-{
-    matrix_init();
-    test_row_7();
-    test_row_6();
-    test_pixels();
-    return 0;
 }
