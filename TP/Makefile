@@ -4,6 +4,7 @@ LD    		= $(PREFIX)ld
 GDB   		= $(PREFIX)gdb
 CC	  		= $(PREFIX)gcc
 
+
 LIBS_DIR = libs
 CMSIS_INCLUDE_DIR = CMSIS/Include
 CMSIS_DEVICE_INCLUDE_DIR = CMSIS/Device/ST/STM32L4xx/Include
@@ -13,11 +14,7 @@ CFLAGS += -I$(LIBS_DIR) -Iclocks -I$(CMSIS_INCLUDE_DIR) -I$(CMSIS_DEVICE_INCLUDE
 LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
-<<<<<<< HEAD
-SOURCES = main.c uart.c led.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
-=======
 SOURCES = main.c matrix.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
->>>>>>> TEST_MATRIX
 LIBS_SRCS_C = $(LIBS_DIR)/stubs.c 
 LIBS_SRCS_S = $(LIBS_DIR)/crt0.s
 
@@ -33,7 +30,7 @@ all: $(TARGET)
 -include $(OBJS:.o=.d)
 
 $(TARGET): $(OBJS) $(LIBS_OBJS)
-	$(CC) $(LDFLAGS) $(CFLAGS)  $(LIBS_OBJS) $(OBJS) clocks/clocks.o -o $(TARGET) 
+	$(CC) $(LDFLAGS) $(CFLAGS)  $(LIBS_OBJS) $(OBJS) clocks/clocks.o image.o -o $(TARGET) 
 
 %.o: %.c
 	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $<

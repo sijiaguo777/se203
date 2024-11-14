@@ -3,8 +3,8 @@
 
 void pause(int time)
 {
-    const int sys_period = 12.5; // 80MHz
-    for (int i = 0; i < (int)(time / sys_period); i++)
+    const int sys_period = 25; // 1/40MHz = 25ns
+    for (int i = 0; i < (time / sys_period); i++)
     {
         asm volatile("nop");
     }
@@ -12,12 +12,12 @@ void pause(int time)
 
 void matrix_init()
 {
-    // met en marche les horloges des ports A, B et C
+    // Activer les horloges des ports A, B et C
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOCEN;
 
-    // configure les broches du DM163
+    // Configurer les broches du DM163
     GPIOC->MODER &= ~(GPIO_MODER_MODE3_Msk | GPIO_MODER_MODE4_Msk | GPIO_MODER_MODE5_Msk);        // Effacer les bits de mode
     GPIOC->MODER |= (GPIO_MODER_MODE3_0 | GPIO_MODER_MODE4_0 | GPIO_MODER_MODE5_0);               // Définir en mode sortie
     GPIOC->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR3 | GPIO_OSPEEDER_OSPEEDR4 | GPIO_OSPEEDER_OSPEEDR5); // Définir à la vitesse maximale
@@ -26,7 +26,7 @@ void matrix_init()
     GPIOB->MODER |= (GPIO_MODER_MODE1_0 | GPIO_MODER_MODE2_0 | GPIO_MODER_MODE0_0);               // Définir en mode sortie
     GPIOB->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR1 | GPIO_OSPEEDER_OSPEEDR2 | GPIO_OSPEEDER_OSPEEDR0); // Définir à la vitesse maximale
 
-    // configure les lignes de la matrice (C0 à C7)
+    // Configurer les lignes de la matrice (C0 à C7)
     GPIOA->MODER &= ~(GPIO_MODER_MODE4_Msk | GPIO_MODER_MODE15_Msk | GPIO_MODER_MODE2_Msk |
                       GPIO_MODER_MODE7_Msk | GPIO_MODER_MODE6_Msk | GPIO_MODER_MODE5_Msk | GPIO_MODER_MODE3_Msk); // Effacer les bits de mode
     GPIOA->MODER |= (GPIO_MODER_MODE4_0 | GPIO_MODER_MODE15_0 | GPIO_MODER_MODE2_0 |
@@ -49,7 +49,7 @@ void matrix_init()
     ROW6(0);
     ROW7(0);
 
-    pause(10000);
+    pause(25);
 
     RST(1);
 
@@ -59,21 +59,21 @@ void matrix_init()
 void pulse_SCK()
 {
     SCK(0);
-    pause(10000); 
+    pause(25); // 1 "nop" = 25ns
     SCK(1);
-    pause(10000); 
+    pause(25);
     SCK(0);
-    pause(10000);
+    pause(25);
 }
 
 void pulse_LAT()
 {
     LAT(1);
-    pause(10000); // 1ms
+    pause(25); 
     LAT(0);
-    pause(10000); // 1ms
+    pause(25); 
     LAT(1);
-    pause(10000); // 1ms
+    pause(25); 
 }
 
 void deactivate_rows()
@@ -136,9 +136,11 @@ void mat_set_row(int row, const rgb_color *val)
         send_byte(val[i].b);
         send_byte(val[i].g);
         send_byte(val[i].r);
+        if(i == 6) deactivate_rows();
     }
-    activate_row(row);
     pulse_LAT();
+    activate_row(row);
+    
 }
 
 void init_bank0()
@@ -177,7 +179,7 @@ void test_pixels()
             pixels[row][col].b = col * 31 + 1; // Augmenter l'intensité du bleu
         }
         mat_set_row(row, pixels[row]);
-        pause(10000000); // Pause pour une courte durée 1ms
+        pause(25); // Pause pour une courte durée 1ms
         deactivate_rows();
     }
 
@@ -200,7 +202,7 @@ void test_pixels()
             pixels[row][col].g = col * 31 + 1; // Augmenter l'intensité du vert
         }
         mat_set_row(row, pixels[row]);
-        pause(10000000); // Pause pour une courte durée 1ms
+        pause(25); // Pause pour une courte durée 1ms
         deactivate_rows();
     }
 
@@ -223,7 +225,29 @@ void test_pixels()
             pixels[row][col].r = col * 31 + 1; // Augmenter l'intensité du rouge
         }
         mat_set_row(row, pixels[row]);
-        pause(10000000); // Pause pour une courte durée 1ms
+        pause(25); // Pause pour une courte durée 25ns
         deactivate_rows();
+    }
+}
+
+void display_image_static(uint8_t *data_start, uint8_t *data_end, int data_size)
+{
+    rgb_color data[8][8];
+    uint8_t dataImageStatic[data_size];
+
+    for (uint8_t *ptr = data_start; ptr < data_end; ptr++)
+    {
+        dataImageStatic[ptr - data_start] = *ptr;
+    }
+
+    for (int row = 0; row < 8; row++)
+    {
+        for (int col = 0; col < 8; col++)
+        {
+            data[row][col].r = dataImageStatic[8 * 3 * row + col * 3 + 0];
+            data[row][col].g = dataImageStatic[8 * 3 * row + col * 3 + 1];
+            data[row][col].b = dataImageStatic[8 * 3 * row + col * 3 + 2];
+        }
+        mat_set_row(row, data[row]);
     }
 }
