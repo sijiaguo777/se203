@@ -23,21 +23,21 @@
 //     }
 // }
 
-extern uint8_t* _binary_image_raw_start;
-extern uint8_t* _binary_image_raw_end;
+extern uint8_t _binary_image_raw_start;
+extern uint8_t _binary_image_raw_end;
 extern int _binary_image_raw_size;
 
 int main(void) {
     clocks_init();
-    // irq_init();
-    // led_init();
+    irq_init();
+    led_init();
     matrix_init();
-    // button_init();
-    // uart_init(); 
+    button_init();
+    uart_init(); 
 
     while (1)
     {
-        display_image_static((uint8_t*)&_binary_image_raw_start, (uint8_t*)&_binary_image_raw_end, (int)_binary_image_raw_size);
+        display_image_static(&_binary_image_raw_start, &_binary_image_raw_end, _binary_image_raw_size);
     }
 
     return 0;
