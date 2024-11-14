@@ -253,19 +253,21 @@ void display_image_static(uint8_t *data_start, uint8_t *data_end, int data_size)
     }
 }
 
+extern uint8_t frame[8 * 8 * 3];
+
 void print_frame(){
 
-    rgb_color data[8][8];
     static int row = 0;
+    rgb_color data[8];
 
     for (int col = 0; col < 8; col++)
     {
-        data[row][col].r = trame[8 * 3 * row + 3 * col + 0];
-        data[row][col].g = trame[8 * 3 * row + 3 * col + 1];
-        data[row][col].b = trame[8 * 3 * row + 3 * col + 2];
+        data[col].r = frame[8 * 3 * row + 3 * col + 0];
+        data[col].g = frame[8 * 3 * row + 3 * col + 1];
+        data[col].b = frame[8 * 3 * row + 3 * col + 2];
         }
 
-        mat_set_row(row, data[row]);
+        mat_set_row(row, data);
 
         row++;
 

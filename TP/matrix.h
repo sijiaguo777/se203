@@ -43,4 +43,6 @@ void activate_row(int row);
 void deactivate_rows();
 void init_bank0();
 void display_image_static(uint8_t *data_start, uint8_t *data_end, int data_size);
+void print_frame();
+
 #endif

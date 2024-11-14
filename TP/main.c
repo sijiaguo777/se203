@@ -9,34 +9,20 @@ extern uint8_t *_binary_image_raw_start;
 extern uint8_t *_binary_image_raw_end;
 extern int _binary_image_raw_size;
 
-uint8_t trame[8 * 8 * 3];
-
-void USART1_IRQHandler(uint8_t *trame)
-{
-    static int index = 0;
-    if (USART1->ISR & USART_ISR_RXNE)
-    {
-        trame[index] = uart_getchar();
-        index++;
-    }
-    if (index >= sizeof(trame))
-    {
-        index = 0;
-    }
-
-    USART1->ICR = USART_ICR_ORECF;
-}
-
+uint8_t frame[8 * 8 * 3];
 
 int main(void)
 {
     clocks_init();
+    irq_init();
     uart_init(38400);
-    uart_puts(trame);
-
-    print_frame();
-    while(1){
-
+    uart_irq_init();
+    matrix_init();
+    
+    while (1)
+    {
+        print_frame();
     }
+    
     return 0;
 }

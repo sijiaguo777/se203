@@ -1,6 +1,6 @@
 #define STM32L475xx
 #include "stm32l475xx.h"
-#include "stm32l4xx.h"
+#include "uart.h"
 #include "clocks.h"
 #include <stddef.h>
 
@@ -44,23 +44,22 @@ void uart_init(int baudrate)
     USART1->CR1 |= USART_CR1_TE;
 }
 
-
 void uart_putchar(uint8_t c)
 {
     // attend que l'USART1 soit prêt à transmettre quelque chose
-    while (!(USART1->ISR & USART_ISR_TXE));
+    while (!(USART1->ISR & USART_ISR_TXE))
+        ;
     // puis lui demande de l'envoyer
     USART1->TDR = c;
 }
 
-
 uint8_t uart_getchar()
 {
-    while (!(USART1->ISR & USART_ISR_RXNE));
+    while (!(USART1->ISR & USART_ISR_RXNE))
+        ;
     uint8_t byte = (uint8_t)(USART1->RDR & USART_RDR_RDR);
     return byte;
 }
-
 
 void uart_puts(const char *s)
 {
@@ -76,7 +75,6 @@ void uart_puts(const char *s)
     uart_putchar('\n');
 }
 
-
 void uart_gets(char *s, size_t size)
 {
     size_t i = 0;
@@ -91,13 +89,39 @@ void uart_gets(char *s, size_t size)
     s[i] = '\0';
 }
 
-
-uint32_t calculate_checksum(uint32_t num_bytes) {
+uint32_t calculate_checksum(uint32_t num_bytes)
+{
     uint32_t sum = 0;
-    for (uint32_t i = 0; i < num_bytes; i++) {
+    for (uint32_t i = 0; i < num_bytes; i++)
+    {
         uint8_t byte = uart_getchar();
-        sum += byte;                   
+        sum += byte;
     }
     return sum;
 }
 
+
+void USART1_IRQHandler()
+{
+    static int index = 0;
+    uint8_t byte_received = 0;
+
+    byte_received = uart_getchar();
+
+    if (byte_received == 0xff || index == 192)
+    {
+        index = 0;
+    }
+    else
+    {
+        frame[index] = byte_received;
+        index++;
+    }
+}
+
+
+void uart_irq_init(void)
+{
+    USART1->CR1 |= USART_CR1_RXNEIE;
+    NVIC_EnableIRQ(USART1_IRQn);
+}

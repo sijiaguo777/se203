@@ -7,9 +7,6 @@
 
 // extern uint32_t _stack;
 // extern void _start(void);
-
-
-
 // Définition des handlers d'interruptions par défaut pour les exceptions internes et IRQs externes
 MAKE_DEFAULT_HANDLER(NMI_Handler);
 MAKE_DEFAULT_HANDLER(HardFault_Handler);
