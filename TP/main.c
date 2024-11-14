@@ -1,24 +1,47 @@
-int infini(){
-    int i = 1;
+#include "led.h"
+
+void delay(int count)
+{
+    for (volatile int i = 0; i < count; i++)
+    {
+        asm volatile("nop");
+    }
+}
+
+int main(void)
+{
+    led_init();
     while (1)
     {
-    }
-    return 0;
-}
+        for (int i = 0; i < 10; i++) {  // Réduire le nombre de boucles à 10
+            led(LED_GREEN);         // Allumer la LED verte
+            delay(100000);          // Augmenter le délai pour un effet de clignotement visible
+            led(LED_GREEN_OFF);      // Éteindre la LED verte
+            delay(100000);          // Augmenter le délai
+        }
 
-int fibo(int n){
-    if (n == 0) {
+        // Clignotement des LED bleue et jaune
+        for (int i = 0; i < 10; i++)
+        {                  // Réduire le nombre de boucles à 10
+            led(LED_BLUE); // Allumer la LED bleue
+            delay(100000); // Délai
+
+            led(LED_YELLOW); // Allumer la LED jaune
+            delay(100000);   // Délai
+        }
+
+        // Clignotement successif des LED verte, bleue et jaune
+        for (int i = 0; i < 10; i++)
+        {                       // Réduire le nombre de boucles à 10
+            led(LED_GREEN);     // Allumer la LED verte
+            delay(100000);      // Délai
+            led(LED_GREEN_OFF); // Éteindre la LED verte
+            delay(100000);      // Délai
+            led(LED_BLUE);      // Allumer la LED bleue
+            delay(100000);      // Délai
+            led(LED_YELLOW);    // Allumer la LED jaune
+            delay(100000);      // Délai
+        }
         return 0;
-    } else if (n == 1) {
-        return 1;
-    } else {
-        return fibo(n - 1) + fibo(n - 2);
     }
-}
-
-int global_var1;
-int global_var2;
-
-int main(void) {
-    fibo(5);
 }
