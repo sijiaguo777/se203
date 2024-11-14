@@ -9,7 +9,7 @@ LIBS_DIR = libs
 CMSIS_INCLUDE_DIR = CMSIS/Include
 CMSIS_DEVICE_INCLUDE_DIR = CMSIS/Device/ST/STM32L4xx/Include
 
-CFLAGS = -g -O0 -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS = -g -O1 -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -I$(LIBS_DIR) -I$(CMSIS_INCLUDE_DIR) -I$(CMSIS_DEVICE_INCLUDE_DIR)
 
 LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding -lm

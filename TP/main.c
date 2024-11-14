@@ -4,7 +4,10 @@
 #include "irq.h"
 #include "matrix.h"
 #include "buttons.h"
+#include "timer.h"
 
+extern uint8_t _binary_image_raw_start;
+extern uint8_t _binary_image_raw_end;
 extern uint8_t *_binary_image_raw_start;
 extern uint8_t *_binary_image_raw_end;
 extern int _binary_image_raw_size;
@@ -18,10 +21,12 @@ int main(void)
     uart_init(38400);
     uart_irq_init();
     matrix_init();
+    timer_init(1000000);
     
     while (1)
     {
-        print_frame();
+        // print_frame();
+        
     }
     
     return 0;
