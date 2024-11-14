@@ -105,7 +105,19 @@ void USART1_IRQHandler()
 {
     static int index = 0;
     uint8_t byte_received = 0;
-
+    if (USART1->ISR & USART_ISR_RXNE){
+        if (USART1->ISR & USART_ISR_ORE){
+            USART1->ICR |= USART_ICR_ORECF;
+            // reset frame
+            for (int i = 0; i < sizeof(frame); i++)
+            {
+                frame[i] = 0;
+            }
+            // reset index
+            index = 0;
+            return;
+        }
+    }
     byte_received = uart_getchar();
 
     if (byte_received == 0xff || index == 192)

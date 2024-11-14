@@ -266,11 +266,8 @@ void print_frame(){
         data[col].g = frame[8 * 3 * row + 3 * col + 1];
         data[col].b = frame[8 * 3 * row + 3 * col + 2];
         }
-
         mat_set_row(row, data);
-
         row++;
-
         if (row == 8){
             row = 0;
         }
