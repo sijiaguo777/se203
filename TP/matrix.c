@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include "uart.h"
 #include "stm32l475xx.h"
 
 void pause(int time)
@@ -250,4 +251,25 @@ void display_image_static(uint8_t *data_start, uint8_t *data_end, int data_size)
         }
         mat_set_row(row, data[row]);
     }
+}
+
+void print_frame(){
+
+    rgb_color data[8][8];
+    static int row = 0;
+
+    for (int col = 0; col < 8; col++)
+    {
+        data[row][col].r = trame[8 * 3 * row + 3 * col + 0];
+        data[row][col].g = trame[8 * 3 * row + 3 * col + 1];
+        data[row][col].b = trame[8 * 3 * row + 3 * col + 2];
+        }
+
+        mat_set_row(row, data[row]);
+
+        row++;
+
+        if (row == 8){
+            row = 0;
+        }
 }

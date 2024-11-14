@@ -8,7 +8,7 @@
 // ===================================================
 // PB.6 = USART1_TX (AF7)  |  PB.7 = USART1_RX (AF7)
 
-void uart_init()
+void uart_init(int baudrate)
 {
     // activer l'horloge de port B
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
@@ -34,8 +34,8 @@ void uart_init()
     // Desactiver USART1
     USART1->CR1 &= ~USART_CR1_UE;
 
-    // configurer la vitesse du port série à 115200 bauds
-    USART1->BRR = 80000000 / 115200;
+    // configurer la vitesse du port série à 38400 bauds
+    USART1->BRR = 80000000 / baudrate;
 
     // activer le port série
     USART1->CR1 |= USART_CR1_UE;
