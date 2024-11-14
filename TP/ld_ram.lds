@@ -6,16 +6,12 @@ MEMORY
     sram2 (rwx) : ORIGIN = 0x10000000, LENGTH = 32K
 }
 
-_estack = ORIGIN(sram2) + LENGTH(sram2);
+_stack = ORIGIN(sram2) + LENGTH(sram2);
 
 ENTRY(_start)
 
 SECTIONS
 {
-    .isr_vector :
-    {
-        KEEP(*(.isr_vector))  
-    } > rom
 
     /* .text store executable codes */
     .text : 

@@ -2,9 +2,7 @@
 #include "stm32l475xx.h"
 #include "stm32l4xx.h"
 #include "clocks.h"
-#include "uart.h"
 #include <stddef.h>
-#include <stdint.h>
 
 // UART Ports:
 // ===================================================
@@ -45,7 +43,6 @@ void uart_init()
     USART1->CR1 |= USART_CR1_RE;
     USART1->CR1 |= USART_CR1_TE;
 }
-
 
 
 void uart_putchar(uint8_t c)
@@ -103,3 +100,4 @@ uint32_t calculate_checksum(uint32_t num_bytes) {
     }
     return sum;
 }
+

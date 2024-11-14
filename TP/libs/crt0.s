@@ -4,7 +4,9 @@
     .thumb
 
 _start:
-    ldr sp, =_estack 
+    ldr sp, =_stack 
     bl init_bss
     bl main
-    b _exit  
+    
+_exit :
+    b _exit

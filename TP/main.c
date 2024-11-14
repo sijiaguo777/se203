@@ -1,5 +1,7 @@
-#include "stm32l475xx.h"
 #include "clocks.h"
+#include "led.h"
+#include "uart.h"
+#include "irq.h"
 #include "matrix.h"
 #include "buttons.h"
 
@@ -37,6 +39,6 @@ int main(void) {
     {
         display_image_static((uint8_t*)&_binary_image_raw_start, (uint8_t*)&_binary_image_raw_end, (int)_binary_image_raw_size);
     }
-   
+
     return 0;
 }
