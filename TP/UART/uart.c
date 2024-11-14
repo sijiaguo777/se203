@@ -3,6 +3,7 @@
 #include "stm32l4xx.h"
 #include "clocks.h"
 #include <stddef.h>
+#include <stdint.h>
 
 // UART Ports:
 // ===================================================
@@ -44,23 +45,7 @@ void uart_init()
     USART1->CR1 |= USART_CR1_TE;
 }
 
-void led_init()
-{
 
-    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
-    GPIOB->MODER &= ~GPIO_MODER_MODE14_1;
-    GPIOB->MODER |= GPIO_MODER_MODE14_0;
-}
-
-void led_on()
-{
-    GPIOB->ODR |= GPIO_ODR_OD14;
-}
-
-void led_off()
-{
-    GPIOB->ODR &= ~GPIO_ODR_OD14;
-}
 
 void uart_putchar(uint8_t c)
 {
