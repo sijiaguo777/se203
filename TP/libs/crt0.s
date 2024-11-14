@@ -7,5 +7,4 @@ _start:
     ldr sp, =_estack 
     bl init_bss
     bl main
-    b _exit                   
-
+    b _exit  
