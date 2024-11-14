@@ -13,7 +13,11 @@ CFLAGS += -I$(LIBS_DIR) -Iclocks -I$(CMSIS_INCLUDE_DIR) -I$(CMSIS_DEVICE_INCLUDE
 LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
+<<<<<<< HEAD
 SOURCES = main.c uart.c led.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
+=======
+SOURCES = main.c matrix.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
+>>>>>>> TEST_MATRIX
 LIBS_SRCS_C = $(LIBS_DIR)/stubs.c 
 LIBS_SRCS_S = $(LIBS_DIR)/crt0.s
 

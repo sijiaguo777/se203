@@ -1,8 +1,13 @@
 #define STM32L475xx
 #include "stm32l475xx.h"
+<<<<<<< HEAD
 #include "stm32l4xx.h"
 #include "clocks.h"
 #include "uart.h"
+=======
+#include "clocks.h"
+#include "matrix.h"
+>>>>>>> TEST_MATRIX
 #include <stddef.h>
 #include <stdint.h>
 
@@ -10,6 +15,7 @@
 // ===================================================
 // PB.6 = USART1_TX (AF7)  |  PB.7 = USART1_RX (AF7)
 
+<<<<<<< HEAD
 int main()
 {
     clocks_init();
@@ -40,6 +46,14 @@ int main()
         uart_putchar('\r');
         uart_putchar('\n');
     }
+=======
+
+
+int main()
+{
+    matrix_init();
+    test_pixels();
+>>>>>>> TEST_MATRIX
 
     return 0;
 }
