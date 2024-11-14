@@ -14,14 +14,14 @@ CFLAGS += -I$(LIBS_DIR) -Iclocks -I$(CMSIS_INCLUDE_DIR) -I$(CMSIS_DEVICE_INCLUDE
 LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
-SOURCES = main.c matrix.c $(LIBS_DIR)/init.c $(LIBS_DIR)/memfuncs.c
-LIBS_SRCS_C = $(LIBS_DIR)/stubs.c 
-LIBS_SRCS_S = $(LIBS_DIR)/crt0.s
+ASSRCS = libs/crt0.s
+SRCS = irq.c led.c uart.c buttons.c main.c libs/memfuncs.c libs/init.c matrix.c 
+#  
+OBJS_REMOVEABLE = $(SRCS:.c=.o)
+OBJS_REMOVEABLE += $(ASSRCS:.s=.o) 
 
-LIBS_OBJS = $(LIBS_SRCS_C:.c=.o)
-LIBS_OBJS += $(LIBS_SRCS_S:.s=.o)
-
-OBJS = $(SOURCES:.c=.o)
+OBJS = $(OBJS_REMOVEABLE) clocks.o image.o
+DEPS = $(SRCS:.c=.d) 
 
 TARGET = main
 
