@@ -15,7 +15,7 @@ LIBS_OBJS += $(LIBS_SRCS_S:.s=.o)
 
 OBJS = $(SOURCES:.c=.o)
 
-TARGET = led
+TARGET = main
 
 all: $(TARGET)
 
