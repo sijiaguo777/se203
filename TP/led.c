@@ -43,6 +43,12 @@ void led_b_j_off(void)
     GPIOC->MODER &= ~(GPIO_MODER_MODE9); // activer la mode entree sur le port PC9 (effacer les bits 18 et 19)
 }
 
+void led_toggle(void)
+{
+    GPIOB->ODR ^= GPIO_ODR_OD14;
+}
+
+
 void led(int state)
 {
     switch (state)

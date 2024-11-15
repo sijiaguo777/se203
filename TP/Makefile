@@ -4,7 +4,6 @@ LD    		= $(PREFIX)ld
 GDB   		= $(PREFIX)gdb
 CC	  		= $(PREFIX)gcc
 
-
 LIBS_DIR = libs
 CMSIS_INCLUDE_DIR = CMSIS/Include
 CMSIS_DEVICE_INCLUDE_DIR = CMSIS/Device/ST/STM32L4xx/Include
@@ -16,12 +15,13 @@ LDFLAGS = -T ld_ram.lds -nostdlib -ffreestanding -lm
 ASFLAGS = -g -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16
 
 ASSRCS = libs/crt0.s
-SRCS = irq.c led.c uart.c buttons.c main.c libs/memfuncs.c libs/init.c matrix.c 
+SRCS = irq.c led.c uart.c buttons.c timer.c main.c libs/memfuncs.c libs/init.c matrix.c 
 #  
 OBJS_REMOVEABLE = $(SRCS:.c=.o)
 OBJS_REMOVEABLE += $(ASSRCS:.s=.o) 
+OBJS_REMOVEABLE += image.o
 
-OBJS = $(OBJS_REMOVEABLE) clocks.o image.o
+OBJS = $(OBJS_REMOVEABLE) clocks.o
 DEPS = $(SRCS:.c=.d) 
 
 TARGET = main
@@ -37,6 +37,10 @@ $(TARGET): $(OBJS)
 %.o: %.s
 	$(AS) $(ASFLAGS) -c $< -o $@
 
+image.o:
+	arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm image.raw image.o
+
+
 -include $(DEPS)
 
 .PHONY: startgdbserver clean
@@ -45,6 +49,6 @@ startgdbserver:
 	JLinkGDBServer -device STM32L475VG -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 clean:
-	rm -f $(OBJS_REMOVEABLE) $(TARGET)
+	rm -f $(OBJS_REMOVEABLE) $(TARGET) 
 	find . -name "*.d" -type f -delete
 	
