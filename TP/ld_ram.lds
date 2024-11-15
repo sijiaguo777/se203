@@ -1,7 +1,7 @@
 MEMORY
 {
     /* flash is rom, readable and executable; ram1, ram2 readable and writable */
-    rom (rx) : ORIGIN = 0x08000000, LENGTH = 1M
+    flash (rx) : ORIGIN = 0x08000000, LENGTH = 1M
     sram1 (rwx) : ORIGIN = 0x20000000, LENGTH = 96K
     sram2 (rwx) : ORIGIN = 0x10000000, LENGTH = 32K
 }
@@ -12,13 +12,18 @@ ENTRY(_start)
 
 SECTIONS
 {
+    .vtor :
+    {
+        _vtor = .;
+        KEEP(*(.vtor))
+    } > flash
 
     /* .text store executable codes */
     .text : 
     {
         *(.text)        /* all .text content */
         *(.text.*)      /* match the section starting with .text. */
-    } > rom
+    } > flash
 
     /* .rodata store read only sections(constants) */
     .rodata :
@@ -26,7 +31,7 @@ SECTIONS
         *(.rodata)      /* all .rodata sections */
         *(.rodata.*)    /* match sections starting with .rodata. */
         *(.const)       /* other possible const sections */
-    } > rom 
+    } > flash
 
     /* .data: store initialized global and static variables */
     .data : 

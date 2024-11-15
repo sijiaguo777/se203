@@ -19,14 +19,12 @@ int main(void)
     uart_init(38400);
     uart_irq_init();
     led_init();
-    // led(LED_GREEN);
     matrix_init();
     timer_init(1000000);
     
     while (1)
     {
         print_frame();
-        
     }
     
     return 0;
