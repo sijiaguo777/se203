@@ -19,6 +19,7 @@ SRCS = irq.c led.c uart.c buttons.c timer.c matrix.c clocks.c main.c libs/memfun
 
 OBJS = $(SRCS:.c=.o)
 OBJS += $(ASSRCS:.s=.o) 
+OBJS += image.o
 
 DEPS = $(SRCS:.c=.d) 
 

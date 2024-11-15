@@ -25,6 +25,7 @@ int main(void)
     while (1)
     {
         print_frame();
+        // display_image_static(&_binary_image_raw_start, &_binary_image_raw_end, _binary_image_raw_size);
     }
     
     return 0;
