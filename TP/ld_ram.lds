@@ -18,7 +18,7 @@ SECTIONS
     {
         *(.text)        /* all .text content */
         *(.text.*)      /* match the section starting with .text. */
-    } > sram1
+    } > rom
 
     /* .rodata store read only sections(constants) */
     .rodata :
@@ -26,7 +26,7 @@ SECTIONS
         *(.rodata)      /* all .rodata sections */
         *(.rodata.*)    /* match sections starting with .rodata. */
         *(.const)       /* other possible const sections */
-    } > sram1
+    } > rom 
 
     /* .data: store initialized global and static variables */
     .data : 

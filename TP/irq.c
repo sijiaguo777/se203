@@ -100,12 +100,12 @@ MAKE_DEFAULT_HANDLER(FPU_IRQHandler);           // FPU global interrupt
 
 
 extern uint32_t _stack;
-extern uint32_t _start;
+extern void _start();
 
 void * const vector_table[] __attribute__((__aligned__(512))) = {
     // Stack and Reset Handler
     &_stack,            /* Top of stack  (initial value of the SP register) */
-    &_start,             /* Reset handler (initial value of the PC register) */
+    _start,             /* Reset handler (initial value of the PC register) */
 
     // ARM internal exceptions
     NMI_Handler,        /* NMI handler */

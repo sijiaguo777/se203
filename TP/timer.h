@@ -5,6 +5,6 @@
 #include "led.h"
 #include "matrix.h"
 
-void timer_init(int max_us);
+void timer_init(int time);
 
 #endif 
