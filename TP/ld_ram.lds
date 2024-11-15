@@ -12,37 +12,50 @@ ENTRY(_start)
 
 SECTIONS
 {
+
     .vtor :
     {
-        _vtor = .;
+        _vtor_lma = LOADADDR(.vtor);
+        _vtor_start = .;
         KEEP(*(.vtor))
+        _vtor_end = .;
+    } > sram1 AT > flash
+    
+    .text.init : 
+    {
+        *(.text.init);
     } > flash
 
     /* .text store executable codes */
     .text : 
-    {
+    {   _text_lma = LOADADDR(.text);
+        _text_start = .;
         *(.text)        /* all .text content */
         *(.text.*)      /* match the section starting with .text. */
-    } > flash
+        _text_end = .;
+    } > sram1 AT > flash
 
     /* .rodata store read only sections(constants) */
     .rodata :
     {
+        _rodata_start = .;
         *(.rodata)      /* all .rodata sections */
         *(.rodata.*)    /* match sections starting with .rodata. */
         *(.const)       /* other possible const sections */
+        _rodata_end = .;
     } > flash
 
     /* .data: store initialized global and static variables */
     .data : 
     {
+        _data_lma = LOADADDR(.data);
         _data_start = .;
         *(.data)        /* all .data sections */
         *(.data.*)      /* match sections starting with .data. */
         _data_end = .;
-    } > sram1
+    } >sram1 AT > flash
 
-    .bss(NOLOAD): 
+    .bss : 
     {
         __bss_start__ = .;
         *(.bss)         /* all .bss sections */
@@ -50,4 +63,3 @@ SECTIONS
         __bss_end__ = .;
     } > sram1
 }
-
